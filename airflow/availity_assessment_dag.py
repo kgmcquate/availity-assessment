@@ -11,7 +11,7 @@ from airflow.providers.amazon.aws.operators.emr import (
 aws_account_id = "117819748843"
 region = "us-east-1"
 os.environ['AWS_DEFAULT_REGION'] = region
-JOB_ROLE_ARN = f"arn:aws:iam::${aws_account_id}:role//lake-freeze-lambda-role"
+JOB_ROLE_ARN = f"arn:aws:iam::${aws_account_id}:role/lake-freeze-lambda-role"
 
 DEFAULT_MONITORING_CONFIG = {
     "monitoringConfiguration": {
