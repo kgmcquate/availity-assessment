@@ -3,7 +3,7 @@ import scala.sys.process._
 name := "provider"
 
 ThisBuild / organization := "com.availity"
-ThisBuild / scalaVersion := "2.12.13"
+ThisBuild / scalaVersion := "2.12.19"
 ThisBuild / useCoursier := false
 
 // Assembly settings
