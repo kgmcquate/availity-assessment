@@ -44,6 +44,4 @@ jobs:
 
     - run: pip install awscli
 
-    - run: ls -la
-
     - run: aws s3 cp scala-*/*.jar s3://deployment-zone-${AWS_ACCOUNT_ID}/availity_assessment/
