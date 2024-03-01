@@ -68,19 +68,19 @@ with DAG(
 
     redshift_schema, redshift_table_name = "public", "provider_visits_count_monthly"
 
-    create_table = RedshiftDataOperator(
-        task_id='create_table',
-        database='dev',
-        workgroup_name="dbt_testgen",
-        # redshift_conn_id='redshift',
-        sql=f"""
-            CREATE TABLE IF NOT EXISTS {redshift_schema}.{redshift_table_name} (
-                provider_id INTEGER,
-                visit_month INTEGER,
-                visit_count INTEGER
-            );
-        """,
-    )
+    # create_table = RedshiftDataOperator(
+    #     task_id='create_table',
+    #     database='dev',
+    #     workgroup_name="dbt_testgen",
+    #     # redshift_conn_id='redshift',
+    #     sql=f"""
+    #         CREATE TABLE IF NOT EXISTS {redshift_schema}.{redshift_table_name} (
+    #             provider_id INTEGER,
+    #             visit_month INTEGER,
+    #             visit_count INTEGER
+    #         );
+    #     """,
+    # )
 
     s3_to_redshift = S3ToRedshiftOperator(
         task_id='s3_to_redshift',
@@ -97,4 +97,5 @@ with DAG(
     )
 
     # create_app >> start_job >> delete_app >> 
-    create_table >> s3_to_redshift
+    # create_table >> 
+    s3_to_redshift
