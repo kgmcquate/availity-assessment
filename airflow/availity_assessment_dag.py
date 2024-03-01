@@ -11,12 +11,12 @@ from airflow.providers.amazon.aws.operators.emr import (
 aws_account_id = "117819748843"
 region = "us-east-1"
 os.environ['AWS_DEFAULT_REGION'] = region
-JOB_ROLE_ARN = f"arn:aws:iam::${aws_account_id}:role/lake-freeze-lambda-role"
+JOB_ROLE_ARN = f"arn:aws:iam::{aws_account_id}:role/lake-freeze-lambda-role"
 
 DEFAULT_MONITORING_CONFIG = {
     "monitoringConfiguration": {
         "s3MonitoringConfiguration": {
-            "logUri": f"s3://emr-zone-${aws_account_id}-${region}/logging/"
+            "logUri": f"s3://emr-zone-{aws_account_id}-{region}/logging/"
         }
     },
 }
@@ -43,7 +43,7 @@ with DAG(
         execution_role_arn=JOB_ROLE_ARN,
         job_driver={
             "sparkSubmit": {
-                "entryPoint": f"s3://deployment-zone-${aws_account_id}/availity_assessment/provider.jar",
+                "entryPoint": f"s3://deployment-zone-{aws_account_id}/availity_assessment/provider.jar",
                 "sparkSubmitParameters": """
                     --driver-memory 4G 
                     --driver-cores 1 
