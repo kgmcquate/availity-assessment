@@ -64,18 +64,17 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    "public.provider_visits_count"
+    
 
-    redshift_schema = "public"
+    redshift_schema, redshift_table_name = "public", "provider_visits_count_monthly"
 
     create_table = RedshiftSQLOperator(
         task_id='create_table',
         redshift_conn_id='redshift',
         sql=f"""
-            CREATE TABLE IF NOT EXISTS {redshift_schema}.provider_visits_count (
+            CREATE TABLE IF NOT EXISTS {redshift_schema}.{redshift_table_name} (
                 provider_id INTEGER,
-                provider_name TEXT,
-                provider_specialty TEXT,
+                visit_month INTEGER,
                 visit_count INTEGER
             );
         """,
@@ -84,9 +83,9 @@ with DAG(
     s3_to_redshift = S3ToRedshiftOperator(
         task_id='s3_to_redshift',
         schema='public',
-        table='provider_visits_count',
+        table=redshift_table_name,
         s3_bucket=f'data-zone-{aws_account_id}-{region}',
-        s3_key='processed/provider_visits_count_monthly/',
+        s3_key=f'processed/{redshift_table_name}/',
         redshift_conn_id='redshift',
         # aws_conn_id='aws_default',
         copy_options=[
