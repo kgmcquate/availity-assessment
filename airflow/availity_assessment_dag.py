@@ -31,38 +31,38 @@ with DAG(
 ) as dag:
     
     
-    create_app = EmrServerlessCreateApplicationOperator(
-        task_id="create_emr_serverless_task",
-        release_label="emr-6.6.0",
-        job_type="SPARK",
-        # enable_application_ui_links=True,
-        config={"name": "availity_assessment"},
-    )
+    # create_app = EmrServerlessCreateApplicationOperator(
+    #     task_id="create_emr_serverless_task",
+    #     release_label="emr-6.6.0",
+    #     job_type="SPARK",
+    #     # enable_application_ui_links=True,
+    #     config={"name": "availity_assessment"},
+    # )
 
-    start_job = EmrServerlessStartJobOperator(
-        task_id="start_emr_serverless_job",
-        application_id=create_app.output,
-        execution_role_arn=JOB_ROLE_ARN,
-        job_driver={
-            "sparkSubmit": {
-                "entryPoint": f"s3://deployment-zone-{aws_account_id}/availity_assessment/provider.jar",
-                # "sparkSubmitParameters": """--driver-memory 4G 
-                #     --driver-cores 1 
-                #     --num-executors 1
-                #     --executor-memory 6G
-                #     --executor-cores 1
-                #     --conf spark.dynamicAllocation.enabled=false
-                # """ 
-            }
-        },
-        configuration_overrides=DEFAULT_MONITORING_CONFIG,
-    )
+    # start_job = EmrServerlessStartJobOperator(
+    #     task_id="start_emr_serverless_job",
+    #     application_id=create_app.output,
+    #     execution_role_arn=JOB_ROLE_ARN,
+    #     job_driver={
+    #         "sparkSubmit": {
+    #             "entryPoint": f"s3://deployment-zone-{aws_account_id}/availity_assessment/provider.jar",
+    #             # "sparkSubmitParameters": """--driver-memory 4G 
+    #             #     --driver-cores 1 
+    #             #     --num-executors 1
+    #             #     --executor-memory 6G
+    #             #     --executor-cores 1
+    #             #     --conf spark.dynamicAllocation.enabled=false
+    #             # """ 
+    #         }
+    #     },
+    #     configuration_overrides=DEFAULT_MONITORING_CONFIG,
+    # )
 
-    delete_app = EmrServerlessDeleteApplicationOperator(
-        task_id="delete_app",
-        application_id=create_app.output,
-        trigger_rule="all_done",
-    )
+    # delete_app = EmrServerlessDeleteApplicationOperator(
+    #     task_id="delete_app",
+    #     application_id=create_app.output,
+    #     trigger_rule="all_done",
+    # )
 
     
 
@@ -96,4 +96,4 @@ with DAG(
     )
 
     # create_app >> start_job >> delete_app >> 
-    s3_to_redshift
+    create_table >> s3_to_redshift
