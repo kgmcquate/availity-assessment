@@ -5,7 +5,7 @@ from airflow import DAG
 from airflow.providers.amazon.aws.operators.emr import (
     EmrServerlessCreateApplicationOperator,
     EmrServerlessStartJobOperator,
-    # EmrServerlessDeleteApplicationOperator,
+    EmrServerlessDeleteApplicationOperator,
 )
 
 aws_account_id = "117819748843"
@@ -56,4 +56,10 @@ with DAG(
         configuration_overrides=DEFAULT_MONITORING_CONFIG,
     )
 
-    create_app >> start_job
+    delete_app = EmrServerlessDeleteApplicationOperator(
+        task_id="delete_app",
+        application_id=create_app.output,
+        trigger_rule="all_done",
+    )
+
+    create_app >> start_job >> delete_app

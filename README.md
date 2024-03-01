@@ -1,25 +1,35 @@
-# Provider Visits
+# Overview
+This is the solution to the Availity Spark assessment.
 
-This is a Spark project used to generate reports that deliver data about providers.
+This includes the code, as requested, along with the deployment of the Spark application to Airflow and EMR Serverless.
 
-## Requirements
-* Language: Scala
-* Framework: Spark
-* Output: json file/files 
+# Index
+- `src`
+  - Contains Scala source code for the application.
+- `airflow`
+  - Contains the Airflow DAG to run the EMR Serverless job.
+- `.github/workflows`
+  - Contains GitHub Actions config to run the build and deployment of the Spark application.
 
-## Data
+# Problem Solution
+## Problem 1
+### Problem Statement
+Given the two data datasets, calculate the total number of visits per provider. The resulting set should contain the provider's ID, name, specialty, along with the number of visits. Output the report in json, partitioned by the provider's specialty.
+### Partitions
+![alt text](images/image.png)
+### Data
+![alt text](images/image-1.png)
 
-Within the `data` subfolder, you'll find two sets of data:
+## Problem 2
+### Problem Statement
+Given the two datasets, calculate the total number of visits per provider per month. The resulting set should contain the provider's ID, the month, and total number of visits. Output the result set in json.
+### File
+![alt text](images/image-2.png)
+### Data
+![alt text](images/image-3.png)
 
-1. `providers.csv` - A CSV containing data about providers and their respective specialties. 
-2. `visits.csv` - A CSV with the unique visit ID, the provider ID (the ID of the provider who was visited), and the date of service of the visit. 
-
-## Problems
-
-Feel free to use this repository as a basis for solving these problems. You can also supply your own code.
-
-1. Given the two data datasets, calculate the total number of visits per provider. The resulting set should contain the provider's ID, name, specialty, along with the number of visits. Output the report in json, partitioned by the provider's specialty. 
-
-2. Given the two datasets, calculate the total number of visits per provider per month. The resulting set should contain the provider's ID, the month, and total number of visits. Output the result set in json.
-
-Please provide your code in some format so we can attempt to run it during evaluation. Examples include github/gitlab links, .scala files, zipped folders containing the modified source project.
+## Airflow
+### Airflow DAG run
+![alt text](images/image-4.png)
+### EMR Serverless job run
+![alt text](images/image-5.png)

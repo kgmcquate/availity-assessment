@@ -14,8 +14,13 @@ object ProviderRoster  {
 
     import spark.implicits._
 
-    val sourcePath = "s3://data-zone-117819748843-us-east-1/provider_roster/raw/"
-    val targetPath = "s3://data-zone-117819748843-us-east-1/provider_roster/processed/"
+    // These are for running in EMR, reading from S3
+    // val dataPath = "s3://data-zone-117819748843-us-east-1/provider_roster/"
+    // val sourcePath = s"${dataPath}raw/"
+    // val targetPath = s"${dataPath}processed/"
+
+    val sourcePath = "./data/"
+    val targetPath = "./data/"
 
     val providers: Dataset[Provider] = 
       spark
