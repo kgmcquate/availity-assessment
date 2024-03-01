@@ -43,5 +43,7 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
 
     - run: pip install awscli
-    
-    - run: aws s3 cp target/scala-*/* s3://deployment-zone-${AWS_ACCOUNT_ID}/availity_assessment/
+
+    - run: ls -la
+
+    - run: aws s3 cp *.jar s3://deployment-zone-${AWS_ACCOUNT_ID}/availity_assessment/
