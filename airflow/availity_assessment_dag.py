@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 from airflow import DAG
 from airflow.providers.amazon.aws.operators.emr import (
@@ -9,6 +10,7 @@ from airflow.providers.amazon.aws.operators.emr import (
 
 aws_account_id = "117819748843"
 region = "us-east-1"
+os.environ['AWS_DEFAULT_REGION'] = region
 JOB_ROLE_ARN = f"arn:aws:iam::${aws_account_id}:role//lake-freeze-lambda-role"
 
 DEFAULT_MONITORING_CONFIG = {
@@ -25,6 +27,7 @@ with DAG(
     start_date=datetime(2024, 1, 1),
     catchup=False,
 ) as dag:
+    
     
     create_app = EmrServerlessCreateApplicationOperator(
         task_id="create_emr_serverless_task",
