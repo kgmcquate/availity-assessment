@@ -71,6 +71,7 @@ with DAG(
     create_table = RedshiftDataOperator(
         task_id='create_table',
         database='dev',
+        workgroup_name="dbt_testgen",
         # redshift_conn_id='redshift',
         sql=f"""
             CREATE TABLE IF NOT EXISTS {redshift_schema}.{redshift_table_name} (
