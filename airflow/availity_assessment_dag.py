@@ -44,14 +44,13 @@ with DAG(
         job_driver={
             "sparkSubmit": {
                 "entryPoint": f"s3://deployment-zone-{aws_account_id}/availity_assessment/provider.jar",
-                "sparkSubmitParameters": """
-                    --driver-memory 4G 
-                    --driver-cores 1 
-                    --num-executors 1
-                    --executor-memory 6G
-                    --executor-cores 1
-                    --conf spark.dynamicAllocation.enabled=false
-                """ 
+                # "sparkSubmitParameters": """--driver-memory 4G 
+                #     --driver-cores 1 
+                #     --num-executors 1
+                #     --executor-memory 6G
+                #     --executor-cores 1
+                #     --conf spark.dynamicAllocation.enabled=false
+                # """ 
             }
         },
         configuration_overrides=DEFAULT_MONITORING_CONFIG,
