@@ -1,4 +1,4 @@
-name: Deploy Spark job JAR to S3
+name: Deploy Airflow DAG
 
 on:
   push:
