@@ -30,6 +30,7 @@ with DAG(
         task_id="create_emr_serverless_task",
         release_label="emr-6.6.0",
         job_type="SPARK",
+        # enable_application_ui_links=True,
         config={"name": "availity_assessment"},
     )
 
@@ -50,7 +51,6 @@ with DAG(
                 """ 
             }
         },
-        enable_application_ui_links=True,
         configuration_overrides=DEFAULT_MONITORING_CONFIG,
     )
 
