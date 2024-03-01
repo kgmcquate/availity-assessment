@@ -7,6 +7,7 @@ from airflow.providers.amazon.aws.operators.emr import (
     EmrServerlessStartJobOperator,
     EmrServerlessDeleteApplicationOperator,
 )
+from airflow.providers.amazon.aws.operators.redshift import RedshiftSQLOperator
 from airflow.providers.amazon.aws.transfers.s3_to_redshift import S3ToRedshiftOperator
 
 aws_account_id = "117819748843"
@@ -61,6 +62,23 @@ with DAG(
         task_id="delete_app",
         application_id=create_app.output,
         trigger_rule="all_done",
+    )
+
+    "public.provider_visits_count"
+
+    redshift_schema = "public"
+
+    create_table = RedshiftSQLOperator(
+        task_id='create_table',
+        redshift_conn_id='redshift',
+        sql=f"""
+            CREATE TABLE IF NOT EXISTS {redshift_schema}.provider_visits_count (
+                provider_id INTEGER,
+                provider_name TEXT,
+                provider_specialty TEXT,
+                visit_count INTEGER
+            );
+        """,
     )
 
     s3_to_redshift = S3ToRedshiftOperator(
