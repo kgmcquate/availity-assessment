@@ -3,6 +3,8 @@ This is the solution to the Availity Spark assessment.
 
 This includes the requested code, along with the deployment of the Spark application and RedShift load to Airflow and EMR Serverless.
 
+Unit test development is in progress.
+
 # Index
 - `src`
   - Contains Scala source code for the application.
