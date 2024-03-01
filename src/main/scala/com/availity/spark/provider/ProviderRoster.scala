@@ -12,6 +12,8 @@ object ProviderRoster  {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder.master("local").getOrCreate()
 
+    import spark.implicits._
+
     val sourcePath = "s3://data-zone-117819748843-us-east-1/provider_roster/raw/"
     val targetPath = "s3://data-zone-117819748843-us-east-1/provider_roster/processed/"
 
