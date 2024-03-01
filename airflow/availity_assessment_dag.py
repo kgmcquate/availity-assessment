@@ -7,6 +7,7 @@ from airflow.providers.amazon.aws.operators.emr import (
     EmrServerlessStartJobOperator,
     EmrServerlessDeleteApplicationOperator,
 )
+from airflow.providers.amazon.aws.transfers.s3_to_redshift import S3ToRedshiftOperator
 
 aws_account_id = "117819748843"
 region = "us-east-1"
@@ -62,4 +63,19 @@ with DAG(
         trigger_rule="all_done",
     )
 
-    create_app >> start_job >> delete_app
+    s3_to_redshift = S3ToRedshiftOperator(
+        task_id='s3_to_redshift',
+        schema='public',
+        table='provider_visits_count',
+        s3_bucket=f'data-zone-{aws_account_id}-{region}',
+        s3_key='processed/provider_visits_count_monthly/',
+        redshift_conn_id='redshift',
+        # aws_conn_id='aws_default',
+        copy_options=[
+            "FORMAT JSON"
+        ],
+        method='REPLACE'
+    )
+
+    # create_app >> start_job >> delete_app >> 
+    s3_to_redshift
