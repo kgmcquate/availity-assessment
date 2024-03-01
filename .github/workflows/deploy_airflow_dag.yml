@@ -1,0 +1,33 @@
+name: Deploy Spark job JAR to S3
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: "us-east-1"
+  AWS_ACCOUNT_ID: "117819748843"
+
+jobs:
+  deploy-dag:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.11
+
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: assembly-jar
+
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - run: pip install awscli
+
+    - run: ls -la
+
+    - run: aws s3 cp airflow/* s3://deployment-zone-${AWS_ACCOUNT_ID}/airflow/dags/
