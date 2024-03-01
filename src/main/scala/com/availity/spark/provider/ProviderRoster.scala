@@ -9,18 +9,20 @@ case class Provider(provider_id: Long, provider_specialty: String, first_name: S
 case class Visit(visit_id: Long, provider_id: Long, visit_date: java.time.LocalDate)
 
 object ProviderRoster  {
+    // These are for running in EMR, reading from S3
+  val dataPath = "s3://data-zone-117819748843-us-east-1/provider_roster/"
+  val sourcePath = s"${dataPath}raw/"
+  val targetPath = s"${dataPath}processed/"
+
+  // val sourcePath = "./data/"
+  // val targetPath = "./data/"
+
+
+
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder.master("local").getOrCreate()
 
     import spark.implicits._
-
-    // These are for running in EMR, reading from S3
-    val dataPath = "s3://data-zone-117819748843-us-east-1/provider_roster/"
-    val sourcePath = s"${dataPath}raw/"
-    val targetPath = s"${dataPath}processed/"
-
-    // val sourcePath = "./data/"
-    // val targetPath = "./data/"
 
     val providers: Dataset[Provider] = 
       spark
@@ -63,7 +65,6 @@ object ProviderRoster  {
         concat(col("first_name"), lit(" "), col("middle_name"), lit(" "), col("last_name"))
       )
       
-
     // providerVisitsCount.show()
 
     providerVisitsCount
